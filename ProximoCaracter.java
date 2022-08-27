@@ -6,17 +6,28 @@ public class ProximoCaracter {
 	
 	public ProximoCaracter(String arquivo) {
 		ldat = new LeitorArquivo(arquivo);
+		aux = 0;
 		linha = ldat.lerLinha();
 		
 	}
 	public char proximo() {
-		aux = 0;
+		if(linha != null) {
 		if( aux == linha.length()) {
 		linha = ldat.lerLinha();
 		aux = 0;
 		}
+		if(linha != null) {
 			char c = linha.charAt(aux);
 			aux++;
+			//System.out.print(c);
 			return c;
+		}else {
+			return '\0';
+		}
+		}
+		return '\0';
+	}
+	public void decrementa() {
+		aux--;
 	}
 }

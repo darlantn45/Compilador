@@ -1,50 +1,45 @@
 
 public class GyhLex {
-	public LeitorArquivo ldat;
+	public String nome = "";
+	public String var = "";
+	public ProximoCaracter prox;
 	
 	public GyhLex(String arquivo) {
-		ldat = new LeitorArquivo(arquivo);
+		 prox = new ProximoCaracter(arquivo);
 	}
 	
 	public Token proximoToken() {
-		String linha;
-		while((linha = ldat.lerLinha()) != null) {
-			System.out.print(linha);
-			String nome = "";
-			String var = "";
-		for(int i = 0; i < linha.length(); i++ ) {
-			char c = linha.charAt(i);
-			/*if(c ==' ' || c=='\n' || c=='\t') continue;
+			
+		char c = prox.proximo();
+		while(c != '\0') {
 			if(c >= 'a' && c <= 'z') {
 				nome += c;
-				if(i+1 < linha.length()){
-				c = linha.charAt(i+1);
+				c = prox.proximo();
+				prox.decrementa();
 				if(c < 'a' || c > 'z') {
 					var += nome;
 					nome = "";
 					return new Token(TipoToken.Var,var);
 					
-				}
-			}else {
-				var += nome;
-				nome = "";
-				return new Token(TipoToken.Var,var);
 			}
 			}
-			*/
-			
+				
+				
 			switch(c) {
-			 	case '-': return new Token(TipoToken.OpAritSub, "-");
-			 	case '+': return new Token(TipoToken.OpAritSoma, "+");
-			 	case '*': return new Token(TipoToken.OpAritMult, "*");
-			 	case '/': return new Token(TipoToken.OpAritDiv, "/");
-			 	case '<': return new Token(TipoToken.OpRelMenor, "<");
-			 	case '>': return new Token(TipoToken.OpRelMaior, ">");
-			 	case ':': return new Token(TipoToken.Delim, ":");
-			 	
-			}
+		 	case '-': return new Token(TipoToken.OpAritSub, "-");
+		 	case '+': return new Token(TipoToken.OpAritSoma, "+");
+		 	case '*': return new Token(TipoToken.OpAritMult, "*");
+		 	case '/': return new Token(TipoToken.OpAritDiv, "/");
+		 	case '<': return new Token(TipoToken.OpRelMenor, "<");
+		 	case '>': return new Token(TipoToken.OpRelMaior, ">");
+		 	case ':': return new Token(TipoToken.Delim, ":");
+		 	
 		}
-		}
-		return null;
-	}
+			
+
+		 c = prox.proximo();	
 }
+	return null;
+}
+}
+			
