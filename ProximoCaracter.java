@@ -19,6 +19,7 @@ public class ProximoCaracter {
 		if(linha != null) {
 			char c = linha.charAt(aux);
 			aux++;
+			if(c == '#') aux = linha.length();
 			//System.out.print(c);
 			return c;
 		}else {

@@ -11,7 +11,10 @@ public class GyhLex {
 	public Token proximoToken() {
 			
 		char c = prox.proximo();
-		while(c != '\0') {
+		while(c ==' ' || c =='\n' || c =='\t') c = prox.proximo();
+		
+		while(c != '\0') {			
+			var = "";
 			if(c >= 'a' && c <= 'z') {
 				nome += c;
 				c = prox.proximo();
@@ -35,10 +38,9 @@ public class GyhLex {
 		 	case ':': return new Token(TipoToken.Delim, ":");
 		 	
 		}
-			
 
 		 c = prox.proximo();	
-}
+		}
 	return null;
 }
 }
