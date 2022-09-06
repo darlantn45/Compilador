@@ -13,15 +13,13 @@ public class ProximoCaracter {
 	public char proximo() {
 		if(linha != null) {
 		if( aux == linha.length()) {
-			//System.out.println(linha);
 			
 			do {
 
 				linha = ldat.lerLinha();
-				if(linha == null) {
-				return'\0';
+					if(linha == null) {
+						return'\0';
 				}
-	//			System.out.println(linha);
 				aux = 0;
 				}while(linha.length() <= 0);
 			}
@@ -31,7 +29,7 @@ public class ProximoCaracter {
 		if(c == '#') {aux = linha.length(); return proximo();
 }
 		return c;
-		//System.out.print(linha);
+		
 		}else {
 			return '\0';
 		}
@@ -39,4 +37,5 @@ public class ProximoCaracter {
 	public void decrementa() {
 		aux--;
 	}
+
 }
