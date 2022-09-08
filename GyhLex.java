@@ -16,23 +16,23 @@ public class GyhLex {
 		while(c != '\0') {			
 			var = "";
 			if(c >= 'a' && c <= 'z') {
+				do {
 				nome += c;
 				c = prox.proximo();
-				prox.decrementa();
-				if(c < 'a' || c > 'z') {
+				}while(c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c >= 'A' && c <= 'Z' );
+					prox.decrementa();
 					var += nome;
 					nome = "";
 					return new Token(TipoToken.Var,var);
 					
 					
-			}}else if(c >= 'A' && c <= 'Z' ) {
+			}else if(c >= 'A' && c <= 'Z' ) {
 				nome += c;
 				c = prox.proximo();
 				prox.decrementa();
 				if(c < 'A' || c > 'Z') {
 					var += nome;
 					nome = "";
-					//System.out.print(var);
 			switch(var) {
 			case "DEC": return new Token(TipoToken.PCDec, "DEC");
 			case "PROG" : return new Token(TipoToken.PCProg, "PROG");
@@ -46,31 +46,46 @@ public class GyhLex {
 			case "ENQTO" : return new Token(TipoToken.PCEnqto, "ENQTO");
 			case "INI" : return new Token(TipoToken.PCIni, "INI");
 			case "FIM" : return new Token(TipoToken.PCFim, "FIM");
+			case "E": return new Token(TipoToken.OpBoolE, "E");
+			case "OU": return new Token(TipoToken.OpBoolOu, "OU");
+			default:
+				var +=c;
+				System.out.print("Erro lexico: <"+ var + "> Nao eh palavra reservada\n na linha: "+ prox.numeroLinha()+"\n");
+				return null;
 			}
 			}
 			}else if (c >= '0' && c <= '9') {
-				nome += c;
-				c = prox.proximo();
-				prox.decrementa();
-				if(c < '0' || c > '9') {
-					var += nome;
-					nome = "";
-					return new Token(TipoToken.NumInt,var);
-				
-			}
+				int aux = 0;
+				do {
+					nome += c;
+					c = prox.proximo();
+					if(c == '.') aux = 1;
+					}while(c >= '0' && c <= '9' || c == '.' );
+						prox.decrementa();
+						var += nome;
+						nome = "";
+						if(aux == 0 )return new Token(TipoToken.NumInt,var);
+						else return new Token(TipoToken.NumReal,var);
 			}
 		
 				
 				
-			switch(c) {
-		 	case '-': return new Token(TipoToken.OpAritSub, "-");
+			else{switch(c) {
+		 	case '-':return new Token(TipoToken.OpAritSub, "-");
 		 	case '+': return new Token(TipoToken.OpAritSoma, "+");
 		 	case '*': return new Token(TipoToken.OpAritMult, "*");
 		 	case '/': return new Token(TipoToken.OpAritDiv, "/");
 		 	case '(': return new Token(TipoToken.AbrePar, "(");
 		 	case ')': return new Token(TipoToken.FechaPar, ")");
 		 	case '"': 
-		 		return new Token(TipoToken.Cadeia, "\"");
+		 		do {
+					nome += c;
+					c = prox.proximo();
+					}while(c != '"');
+		 				nome += c;
+						var += nome;
+						nome = "";
+		 		return new Token(TipoToken.Cadeia,var);
 		 	case '<':
 		 		c = prox.proximo();
 		 		if(c == '=') {
@@ -100,8 +115,8 @@ public class GyhLex {
 		 		if( c == '=') {
 		 			return new Token(TipoToken.OpRelIgual, "==");
 		 		}else {
-		 			prox.decrementa();
-		 			System.out.print("Erro lexico");
+		 			System.out.print("Erro lexico: <=> caractere desconhecido\n na linha: "+ prox.numeroLinha()+"\n");
+		 			return null;
 		 		}
 		 	case '!': 
 		 		c = prox.proximo();
@@ -109,12 +124,19 @@ public class GyhLex {
 		 			return new Token(TipoToken.OpRelDif, "==");
 		 		}else {
 		 			prox.decrementa();
-		 			System.out.print("Erro lexico");
+		 			System.out.print("Erro lexico: <!> caractere desconhecido\n na linha: "+ prox.numeroLinha()+"\n");
+		 			return null;
 		 		}
+		 		default:
+		 			System.out.print("Erro lexico: <"+ c + "> caractere desconhecido\n na linha: "+ prox.numeroLinha()+"\n");
+		 			return null;
+		 			
+
+		 		
 		 	
 		}
-
-		 c = prox.proximo();	
+			}
+		 c = prox.proximo();
 		}
 	return null;
 }
