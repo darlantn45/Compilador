@@ -3,6 +3,7 @@ public class GyhLex {
 	public String nome = "";
 	public String var = "";
 	public ProximoCaracter prox;
+	public int aux;
 	
 	public GyhLex(String arquivo) {
 		 prox = new ProximoCaracter(arquivo);
@@ -71,7 +72,20 @@ public class GyhLex {
 				
 				
 			else{switch(c) {
-		 	case '-':return new Token(TipoToken.OpAritSub, "-");
+		 	case '-':
+		 		if(aux == 1) {
+					do {
+						nome += c;
+						c = prox.proximo();
+						}while(c >= '0' && c <= '9' || c == '.' );
+							prox.decrementa();
+							var += nome;
+							nome = "";
+							aux = 0;
+							return new Token(TipoToken.NumReal,var);
+				}else {
+		 		return new Token(TipoToken.OpAritSub, "-");
+				}
 		 	case '+': return new Token(TipoToken.OpAritSoma, "+");
 		 	case '*': return new Token(TipoToken.OpAritMult, "*");
 		 	case '/': return new Token(TipoToken.OpAritDiv, "/");
@@ -105,6 +119,12 @@ public class GyhLex {
 		 	case ':': 
 		 		c = prox.proximo();
 		 		if( c == '=') {
+		 			c = prox.proximo();
+		 			while(c ==' ' || c =='\n' || c =='\t') c = prox.proximo();
+		 			if(c == '-') {
+		 				aux = 1;
+		 			}
+		 			prox.decrementa();
 		 			return new Token(TipoToken.Atrib, ":=");
 		 		}else {
 		 			prox.decrementa();
