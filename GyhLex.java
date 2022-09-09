@@ -160,7 +160,7 @@ public class GyhLex {
 			}
 		 c = prox.proximo();
 		}
-	return null;
-}
+	return null;//quando finaliza o programa retorna nullo
+	}
 }
 			
