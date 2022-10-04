@@ -1,4 +1,3 @@
-
 public class GyhSint {
 	public Token t;
 	public GyhLex lex;
@@ -145,7 +144,7 @@ public class GyhSint {
 			termoAritimetico_(t);
 		}else if(t.sigla == TipoToken.OpAritDiv) {
 			match(t.sigla,TipoToken.OpAritDiv);
-			//t = proximo();
+			t = proximo();
 			fatorAritmetico(t);
 			t = proximo();
 			termoAritimetico_(t);
@@ -174,6 +173,15 @@ public class GyhSint {
 		expressaoRelacional(t);
 		t = proximo();
 		match(t.sigla,TipoToken.PCEntao);
+		t = proximo();
+		comando(t);
+		if(t.sigla == TipoToken.PCSenao)
+			F(t);		
+	}
+	public void F(Token t) {
+		match(t.sigla,TipoToken.PCSenao);
+		t = proximo();
+		comando(t);
 	}
 	public void expressaoRelacional(Token t) {
 		termoRelacional(t);
@@ -253,4 +261,3 @@ public class GyhSint {
 		}
 		
 }
-	
