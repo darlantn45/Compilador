@@ -20,6 +20,7 @@ public class GyhSint {
 		if (A == B) {
 			System.out.print("match de " + A +"\n");
 			t = proximo();
+			//System.out.println(t.sigla);
 		}else {
 			System.out.print("#Erro sintatico:\nInesperado Token: "+A+" \nEsperado Token "+ B +"\n");
 			System.exit(1);
@@ -158,15 +159,13 @@ public class GyhSint {
 		expressaoRelacional_();
 	}
 	public void expressaoRelacional_() {
-		if(t.sigla == TipoToken.OpBoolE || t.sigla == TipoToken.OpBoolOu) {
+		if(t.sigla == TipoToken.OpBoolE || t.sigla == TipoToken.OpBoolOu || t.sigla == TipoToken.AbrePar 
+				|| t.sigla == TipoToken.OpRelMenor ||t.sigla == TipoToken.OpRelMenorIgual 
+				||t.sigla == TipoToken.OpRelMaior ||t.sigla == TipoToken.OpRelMaiorIgual 
+				|| t.sigla == TipoToken.OpRelIgual ||t.sigla == TipoToken.OpRelDif) {
 			operadorBooleano();
-			expressaoRelacional();
-		}else if(t.sigla == TipoToken.AbrePar || t.sigla == TipoToken.OpRelMenor ||
-				t.sigla == TipoToken.OpRelMenorIgual ||t.sigla == TipoToken.OpRelMaior ||
-				t.sigla == TipoToken.OpRelMaiorIgual || t.sigla == TipoToken.OpRelIgual ||
-				t.sigla == TipoToken.OpRelDif) {
 			termoRelacional();
-			expressaoRelacional();
+			expressaoRelacional_();
 		}
 	}
 		public void operadorBooleano() {
@@ -175,9 +174,9 @@ public class GyhSint {
 			}else if (t.sigla == TipoToken.OpBoolOu){
 				match(t.sigla,TipoToken.OpBoolOu);
 			}else {
-				System.out.print("#Erro sintatico:\nEsperado Token operador booleano\n");
-			System.exit(1);
-		}	
+				System.out.print("#Erro sintatico:\nEsperado Token operador booleano \n");
+				System.exit(1);
+			}
 		}
 		public void termoRelacional() {
 			if(t.sigla == TipoToken.AbrePar) {
