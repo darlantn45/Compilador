@@ -18,26 +18,20 @@ public class GyhSint {
 	 
 	public void match(TipoToken A, TipoToken B) {
 		if (A == B) {
-			t = proximo();
-			
 			System.out.print("match de " + A +"\n");
+			t = proximo();
 		}else {
-			//System.out.println(t.lexema);
-			System.out.print("Erro sintatico, entrou "+A+" e o esperado era "+ B +"\n");
+			System.out.print("#Erro sintatico:\nInesperado Token: "+A+" \nEsperado Token "+ B +"\n");
 			System.exit(1);
 		}
 	}
 	public void programa() {
-		if(t != null) {
 		match(t.sigla,TipoToken.Delim);
 		match(t.sigla,TipoToken.PCDec);
 		listaDeclaracoes();
 		match(t.sigla,TipoToken.Delim);
 		match(t.sigla,TipoToken.PCProg);
 		listaComandos();
-		}else {
-		System.exit(1);
-		}
 	}
 	public void listaDeclaracoes() {
 		declaracao();
@@ -50,7 +44,6 @@ public class GyhSint {
 	}
 	public void declaracao() {
 		match(t.sigla,TipoToken.Var);
-		//System.out.println( t.lexema);
 		match(t.sigla,TipoToken.Delim);
 		tipoVar();
 	}
@@ -62,13 +55,10 @@ public class GyhSint {
 		}
 	}
 	public void listaComandos(){
-		//System.out.print(t.sigla);
 		comando();
-		//System.out.print(t.sigla);
 		Y();
 	}
 	public void Y() {
-		//System.out.println(t.sigla);
 		if(t.sigla == TipoToken.Var || t.sigla == TipoToken.PCLer 
 		|| t.sigla == TipoToken.PCImprimir|| t.sigla == TipoToken.PCSe ||
 		t.sigla == TipoToken.PCEnqto || t.sigla == TipoToken.PCIni) {
@@ -122,8 +112,6 @@ public class GyhSint {
 
 	}
 	public void termoAritimetico_() {
-		//t = proximo();
-		System.out.println(t.sigla);
 		if(t.sigla == TipoToken.OpAritMult) {
 			match(t.sigla,TipoToken.OpAritMult);
 			fatorAritmetico();
@@ -146,7 +134,6 @@ public class GyhSint {
 			expressaoAritmetica();
 			match(t.sigla,TipoToken.FechaPar);
 		}
-		//System.out.println(t.sigla);
 	}
 	public void comandoCondicao() {
 		match(t.sigla,TipoToken.PCSe);
@@ -167,16 +154,14 @@ public class GyhSint {
 	public void expressaoRelacional_() {
 		if(t.sigla == TipoToken.OpBoolE || t.sigla == TipoToken.OpBoolOu) {
 			operadorBooleano();
-			expressaoRelacional_();
+			expressaoRelacional();
 		}else if(t.sigla == TipoToken.AbrePar || t.sigla == TipoToken.OpRelMenor ||
 				t.sigla == TipoToken.OpRelMenorIgual ||t.sigla == TipoToken.OpRelMaior ||
 				t.sigla == TipoToken.OpRelMaiorIgual || t.sigla == TipoToken.OpRelIgual ||
 				t.sigla == TipoToken.OpRelDif) {
 			termoRelacional();
-			expressaoRelacional_();
+			expressaoRelacional();
 		}
-		//t = proximo();
-		//System.out.println(t.sigla);
 	}
 		public void operadorBooleano() {
 			if(t.sigla == TipoToken.OpBoolE) {
@@ -184,7 +169,6 @@ public class GyhSint {
 			}else {
 				match(t.sigla,TipoToken.OpBoolOu);
 			}
-			//t = proximo();
 			/*}else {
 			System.out.print("Erro sintatico, nao eh nem E nem Ou \n");
 			System.exit(1);
@@ -211,6 +195,7 @@ public class GyhSint {
 			}else {
 				match(t.sigla,TipoToken.OpRelDif);
 			}
+			System.out.println("oi");
 			expressaoAritmetica();
 			/*}else {
 			System.out.print("Erro sintatico, era esperado um operador relacional \n");
@@ -231,16 +216,11 @@ public class GyhSint {
 		}
 		public void comandoSaida() {
 			match(t.sigla,TipoToken.PCImprimir);
-			System.out.println(t.sigla);
 			if(t.sigla == TipoToken.Cadeia) {
 				match(t.sigla,TipoToken.Cadeia);
 			}else{
 				match(t.sigla,TipoToken.Var);
 			}
-			if(t == null) {
-				System.out.print("oi");
-			}
-			//System.out.println(t.sigla);
 		}
 		
 }
