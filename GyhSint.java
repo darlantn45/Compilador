@@ -25,15 +25,21 @@ public class GyhSint {
 			System.exit(1);
 		}
 	}
+	
+	//================================================
+	// Método Programa
+	//Programa → ':' 'DEC' ListaDeclaracoes ':' 'PROG' ListaComandos;
+	//================================================
 	public void programa() {
-		match(t.sigla,TipoToken.Delim);
-		match(t.sigla,TipoToken.PCDec);
-		listaDeclaracoes();
-		match(t.sigla,TipoToken.Delim);
-		match(t.sigla,TipoToken.PCProg);
-		listaComandos();
-	}
+		match(t.sigla,TipoToken.Delim); // :
+		match(t.sigla,TipoToken.PCDec); // 'DEC'
+		listaDeclaracoes(); // Método ListaDeclaracoes
+		match(t.sigla,TipoToken.Delim); // :
+		match(t.sigla,TipoToken.PCProg); // 'PROG'
+		listaComandos(); // Método ListaComandos
+	}// programa
 	public void listaDeclaracoes() {
+		
 		declaracao();
 		X();
 	}
@@ -166,14 +172,12 @@ public class GyhSint {
 		public void operadorBooleano() {
 			if(t.sigla == TipoToken.OpBoolE) {
 				match(t.sigla,TipoToken.OpBoolE);
-			}else {
+			}else if (t.sigla == TipoToken.OpBoolOu){
 				match(t.sigla,TipoToken.OpBoolOu);
-			}
-			/*}else {
-			System.out.print("Erro sintatico, nao eh nem E nem Ou \n");
+			}else {
+				System.out.print("#Erro sintatico:\nEsperado Token operador booleano\n");
 			System.exit(1);
-		}*/
-			
+		}	
 		}
 		public void termoRelacional() {
 			if(t.sigla == TipoToken.AbrePar) {
@@ -192,15 +196,13 @@ public class GyhSint {
 				match(t.sigla,TipoToken.OpRelMaiorIgual);
 			}else if(t.sigla == TipoToken.OpRelIgual) {
 				match(t.sigla,TipoToken.OpRelIgual);
-			}else {
+			}else if (t.sigla == TipoToken.OpRelDif) {
 				match(t.sigla,TipoToken.OpRelDif);
-			}
-			System.out.println("oi");
+			}else {
+				System.out.print("#Erro sintatico:\nEsperado Token operador relacional \n");
+				System.exit(1);
+		}
 			expressaoAritmetica();
-			/*}else {
-			System.out.print("Erro sintatico, era esperado um operador relacional \n");
-			System.exit(1);
-		}*/
 			}
 		}
 		public void comandoRepeticao() {
@@ -218,8 +220,11 @@ public class GyhSint {
 			match(t.sigla,TipoToken.PCImprimir);
 			if(t.sigla == TipoToken.Cadeia) {
 				match(t.sigla,TipoToken.Cadeia);
-			}else{
+			}else if (t.sigla == TipoToken.Var){ 
 				match(t.sigla,TipoToken.Var);
+			}else {
+				System.out.print("#Erro sintatico:\nEsperado Token Cadeia ou Token Var\n");
+				System.exit(1);
 			}
 		}
 		
